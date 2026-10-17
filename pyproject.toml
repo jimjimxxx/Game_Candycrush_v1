@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "candycrush"
+version = "1.0.0"
+description = "Match-3 (Candy Crush style) game for the terminal"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.scripts]
+candycrush = "candycrush.cli:main"
+
+[tool.setuptools]
+packages = ["candycrush"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
