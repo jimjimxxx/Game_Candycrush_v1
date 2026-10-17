@@ -1,0 +1,136 @@
+:root {
+  --bg: #f6f4ef;
+  --surface: #ffffff;
+  --text: #1f1d1a;
+  --muted: #6b665d;
+  --border: #ddd8cc;
+  --accent: #2f5d8a;
+  --cell-bg: #ece8de;
+  --c1: #e05252;
+  --c2: #e9b62f;
+  --c3: #3fa36b;
+  --c4: #3f7fd1;
+  --c5: #9a5cc7;
+  --c6: #2db3b0;
+  --c7: #b9b2a3;
+  --c8: #e0843a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #171614;
+    --surface: #211f1c;
+    --text: #ece8df;
+    --muted: #a39d92;
+    --border: #3a3631;
+    --accent: #8db6e0;
+    --cell-bg: #2b2824;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+main {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+h1 { margin: 0 0 4px; font-size: 1.75rem; }
+.sub { margin: 0 0 20px; color: var(--muted); font-size: 0.95rem; }
+a { color: var(--accent); }
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.stats div {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.label { color: var(--muted); font-size: 0.85rem; }
+#score, #moves { font-size: 1.4rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.board {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  touch-action: none;
+  user-select: none;
+}
+
+.cell {
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 50%;
+  margin: 0;
+  padding: 0;
+  font: 700 0.75rem/1 system-ui, sans-serif;
+  color: rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  background: var(--cell-bg);
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.18);
+  transition: transform 0.12s ease;
+}
+.cell:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
+.t1 { background: var(--c1); }
+.t2 { background: var(--c2); }
+.t3 { background: var(--c3); }
+.t4 { background: var(--c4); }
+.t5 { background: var(--c5); }
+.t6 { background: var(--c6); }
+.t7 { background: var(--c7); }
+.t8 { background: var(--c8); }
+
+.selected { transform: scale(0.82); outline: 3px solid var(--text); outline-offset: 2px; }
+.hinted { animation: pulse 0.6s ease-in-out 2; }
+.pop { animation: pop 0.38s ease-in forwards; }
+.shake { animation: shake 0.3s ease-in-out; }
+
+@keyframes pop { to { transform: scale(0); opacity: 0; } }
+@keyframes pulse { 50% { transform: scale(0.75); } }
+@keyframes shake {
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.message { min-height: 3em; margin: 12px 0; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 8px; }
+button:not(.cell) {
+  font: inherit;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+button:not(.cell):disabled { opacity: 0.5; cursor: default; }
+
+details { margin-top: 24px; color: var(--muted); font-size: 0.95rem; }
+summary { cursor: pointer; color: var(--text); }
+code { font-size: 0.9em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cell, .pop, .hinted, .shake { animation: none; transition: none; }
+}

@@ -36,6 +36,20 @@ def test_valid_move_scores_and_uses_a_move():
     assert g.board.find_matches() == set()
 
 
+def test_record_keeps_one_step_per_wave():
+    g = game_with([
+        "1 2 1 1",
+        "3 1 4 5",
+        "4 5 3 2",
+    ])
+    result = g.play((0, 1), (1, 1), record=True)
+    assert len(result.steps) == len(result.waves)
+    grid, cleared = result.steps[0]
+    assert cleared == {(0, 0), (0, 1), (0, 2), (0, 3)}
+    assert grid[0] == [1, 1, 1, 1]  # board after the swap, before clearing
+    assert [len(c) for _, c in result.steps] == result.waves
+
+
 def test_swap_without_match_is_undone_but_uses_a_move():
     g = game_with([
         "1 2 1 1",

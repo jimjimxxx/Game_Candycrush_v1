@@ -1,6 +1,8 @@
 # Game_Candycrush_v1
 
-A match-3 (Candy Crush style) game for the terminal. This is a rewrite of my 2024 version, [Game_Candycrush](https://github.com/jimjimxxx/Game_Candycrush): the rules engine is separated from the interface, covered by tests, and used by simple automatic players to compare strategies with a Monte Carlo simulation.
+**Play in the browser: https://jimjimxxx.github.io/Game_Candycrush_v1/**
+
+A match-3 (Candy Crush style) game for the terminal and the browser. This is a rewrite of my 2024 version, [Game_Candycrush](https://github.com/jimjimxxx/Game_Candycrush): the rules engine is separated from the interface, covered by tests, and used by simple automatic players to compare strategies with a Monte Carlo simulation.
 
 ```
 Score 0   Moves left 15
@@ -52,9 +54,17 @@ Moves are typed as `r1 c1 r2 c2` (e.g. `3 4 3 5`) or `r c dir` with `dir` in `u/
 | `candycrush/agents.py` | Random and greedy automatic players |
 | `candycrush/simulate.py` | Monte Carlo comparison of the players |
 | `candycrush/cli.py` | Terminal interface and input parsing |
-| `tests/` | pytest suite (234 cases, including 200 seeded boards) |
+| `web/` | Browser version: page, styles, and a small bridge to the Python package |
+| `tests/` | pytest suite (235 cases, including 200 seeded boards) |
+| `.github/workflows/pages.yml` | Runs the tests on every push, then publishes the browser version |
 
-All randomness goes through a seeded `random.Random`, so any game can be replayed exactly.
+All randomness goes through a seeded `random.Random`, so any game can be replayed exactly; `--seed 1` in the terminal and `?seed=1` in the browser give the same game.
+
+## Browser version
+
+The web page does not reimplement the rules in JavaScript. It loads [Pyodide](https://pyodide.org) (CPython compiled to WebAssembly) and imports the same `candycrush` package, so the code the tests cover is the code the browser runs. JavaScript only draws the board and handles clicks and swipes; `Game.play(..., record=True)` returns the board before each cascade wave so the page can animate it. The "Let the greedy agent play" button runs the greedy player from `agents.py`.
+
+GitHub Actions runs pytest on each push to `main`; if the tests pass, it copies `web/` and the package into a static site and deploys it to GitHub Pages. The first visit takes a few seconds while Pyodide downloads.
 
 ## What changed from the 2024 version
 
@@ -98,4 +108,4 @@ Playing greedily raises the average score by about 38%. Preferring low moves add
 
 - Special candies (striped, wrapped) for runs of 4 and 5
 - A lookahead player that estimates cascade value by sampling refills
-- A graphical interface (e.g. pygame) on top of the same `Game` class
+- Smoother animation of candies falling into place in the browser version

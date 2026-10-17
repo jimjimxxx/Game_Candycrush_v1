@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import List, Optional, Set, Tuple
 
 from .board import Board, Cell, Move
 
@@ -28,6 +28,8 @@ class MoveResult:
     waves: List[int] = field(default_factory=list)  # candies cleared in each cascade wave
     points: int = 0
     reshuffled: bool = False
+    # With record=True: the board just before each wave is cleared, and the cells it clears.
+    steps: List[Tuple[List[List[int]], Set[Cell]]] = field(default_factory=list)
 
 
 class Game:
@@ -57,7 +59,7 @@ class Game:
     def over(self) -> bool:
         return self.moves_left == 0
 
-    def play(self, a: Cell, b: Cell) -> MoveResult:
+    def play(self, a: Cell, b: Cell, record: bool = False) -> MoveResult:
         if self.over:
             raise RuntimeError("game is over")
         if not (self.board.in_bounds(a) and self.board.in_bounds(b)):
@@ -73,6 +75,8 @@ class Game:
         result = MoveResult(valid=True)
         matched = self.board.matches_through((a, b))
         while matched:
+            if record:
+                result.steps.append(([row[:] for row in self.board.grid], set(matched)))
             result.waves.append(len(matched))
             result.points += wave_points(len(matched))
             self.board.clear(matched)
@@ -88,5 +92,5 @@ class Game:
         self.score += result.points
         return result
 
-    def play_move(self, move: Move) -> MoveResult:
-        return self.play(*move)
+    def play_move(self, move: Move, record: bool = False) -> MoveResult:
+        return self.play(*move, record=record)

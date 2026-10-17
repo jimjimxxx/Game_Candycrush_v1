@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Match-3 in Python</title>
+  <meta name="description" content="A match-3 game whose rules engine is a tested Python package, running in the browser with Pyodide.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23e05252'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Match-3</h1>
+      <p class="sub">
+        The rules run on the same tested Python package as the
+        <a href="https://github.com/jimjimxxx/Game_Candycrush_v1">repository</a>,
+        loaded into your browser with Pyodide.
+      </p>
+    </header>
+
+    <section class="stats" aria-live="polite">
+      <div><span class="label">Score</span><span id="score">0</span></div>
+      <div><span class="label">Moves left</span><span id="moves">–</span></div>
+    </section>
+
+    <div id="board" class="board" role="grid" aria-label="Game board"></div>
+
+    <p id="message" class="message" role="status">Loading the Python runtime (a few seconds on first visit)…</p>
+
+    <div class="controls">
+      <button id="hint" disabled>Hint</button>
+      <button id="auto" disabled>Let the greedy agent play</button>
+      <button id="new" disabled>New game</button>
+    </div>
+
+    <details>
+      <summary>How to play</summary>
+      <ul>
+        <li>Click a candy, then an adjacent one, to swap them. On a touch screen you can also swipe.</li>
+        <li>Lining up three or more of the same kind clears them; candies fall and new ones drop in, which can clear again (cascades).</li>
+        <li>A swap that makes no line is undone but still uses one of your 15 moves.</li>
+        <li>Each clearing wave scores candies × multiplier: 3–6 ×1, 7–12 ×2, 13+ ×5.</li>
+        <li>The hint and the agent both pick the move that clears the most candies right away.</li>
+        <li>Add <code>?seed=1</code> to the address to replay the same game.</li>
+      </ul>
+    </details>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
