@@ -2,7 +2,7 @@
 
 **Play in the browser: https://jimjimxxx.github.io/Game_Candycrush_v1/**
 
-A match-3 (Candy Crush style) game for the terminal and the browser. This is a rewrite of my 2024 version, [Game_Candycrush](https://github.com/jimjimxxx/Game_Candycrush): the rules engine is separated from the interface, covered by tests, and used by simple automatic players to compare strategies with a Monte Carlo simulation.
+A match-3 (Candy Crush style) game for the terminal and the browser. This is a rewrite of my 2024 version, [Game_Candycrush](https://github.com/jimjimxxx/early-projects/tree/main/Game_Candycrush): the rules engine is separated from the interface, covered by tests, and used by simple automatic players to compare strategies with a Monte Carlo simulation.
 
 ```
 Score 0   Moves left 15
